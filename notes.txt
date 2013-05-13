@@ -1,0 +1,22 @@
+# User stories:
+
+## Starting a coding process.
+From the terminal I would indicate I want to do a psp action by typing 'psp'.
+The second argument would be 'start'.
+The third argument would be 'code'.
+This would start a new psp process that would be recording how long my coding process is.
+
+## Stopping a coding process.
+From the terminal I would type 'psp stop' and psp would stop my current process.
+I could explicitly stop the coding process but it's implied because I can only have one process
+running at a time.
+I could also implicitly stop a process by starting a new process, such as 'psp start code-review'.
+
+#Under the hood:
+
+When starting a new process, a new process of a certain type is created (such as, 'code',
+'code-review', 'triage', 'p2p', etc... (to be fleshed out)).
+That process records the start time and when the process is ended it records the end time.
+The total time is recorded into a database (or file) of my total processes.
+That database (or file) would be queryable so I can get an idea of how i'm spending my time during
+the day/week.  I could also hook in some fancy graphs towards the end of development also.
