@@ -1,3 +1,33 @@
-#! /usr/bin/env bash
+#! /usr/bin/env python
 
-echo "TODO"
+import argparse
+
+# TODO move to a config or separate class.
+# Mapping of valid process names and their aliases.
+_valid_processes = {
+    'code-review': ['cr', 'code'],
+    'triage': ['tr'],
+    'p2p': ['user', 'p2'],
+}
+
+# Valid action names
+_valid_actions = [
+    'start',
+    'stop',
+]
+
+parser = argparse.ArgumentParser()
+parser.add_argument('name', metavar='NAME',
+    choices=_valid_processes.keys(), nargs=1
+)
+parser.add_argument('action', metavar='ACTION',
+    choices=_valid_actions, nargs=1
+)
+args = parser.parse_args()
+
+'''
+# TODO hook up $PYTHONPATH so this import will work.
+from psp import process_manager
+manager = process_manager.ProcessManager()
+manager.start_process(args.name)
+'''
