@@ -12,7 +12,13 @@ I could explicitly stop the coding process but it's implied because I can only h
 running at a time.
 I could also implicitly stop a process by starting a new process, such as 'psp start code-review'.
 
-#Under the hood:
+## Shortcuts
+It makes sense to have some shortcuts/aliases for the above. For example:
+psp st cr = psp start code-review
+psp sp cr = psp stop code-review
+psp st tr = psp start triage
+
+# Under the hood:
 
 When starting a new process, a new process of a certain type is created (such as, 'code',
 'code-review', 'triage', 'p2p', etc... (to be fleshed out)).
