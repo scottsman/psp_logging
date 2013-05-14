@@ -38,4 +38,3 @@ class Process(object):
         """
         if self._end_time:
             return time.ctime(self._end_time)
-
