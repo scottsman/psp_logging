@@ -1,6 +1,16 @@
 #! /usr/bin/env python
 
 import argparse
+import logging
+
+from psp import process_manager
+
+# Set up logging
+_log = logging.getLogger()
+_handler = logging.StreamHandler()
+_log.setLevel(logging.DEBUG)
+_handler.setLevel(logging.DEBUG)
+_log.addHandler(_handler)
 
 # TODO move to a config or separate class.
 # Mapping of valid process names and their aliases.
@@ -25,9 +35,19 @@ parser.add_argument('action', metavar='ACTION',
 )
 args = parser.parse_args()
 
-'''
-# TODO hook up $PYTHONPATH so this import will work.
-from psp import process_manager
-manager = process_manager.ProcessManager()
-manager.start_process(args.name)
-'''
+# TODO move
+_log_file = '/tmp/psp.log'
+_current_process_file = '/tmp/current_process'
+
+manager = process_manager.ProcessManager(
+    _log_file,
+    _current_process_file
+)
+
+action = args.action[0]
+name = args.name[0]
+
+if action == 'start':
+    manager.start_process(name)
+elif action == 'stop':
+    manager.stop_process()
