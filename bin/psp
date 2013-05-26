@@ -1,10 +1,11 @@
 #! /usr/bin/env python
 
-import argparse
 import logging
 
-from psp import process_manager
+from psp.process_manager import ProcessManager
+from psp.argument_parser import PspParser
 
+# TODO connect logging level to the arguments.
 # Set up logging
 _log = logging.getLogger()
 _handler = logging.StreamHandler()
@@ -12,41 +13,21 @@ _log.setLevel(logging.DEBUG)
 _handler.setLevel(logging.DEBUG)
 _log.addHandler(_handler)
 
-# TODO move to a config or separate class.
-# Mapping of valid process names and their aliases.
-_valid_processes = {
-    'code-review': ['cr', 'code'],
-    'triage': ['tr'],
-    'p2p': ['user', 'p2'],
-}
-
-# Valid action names
-_valid_actions = [
-    'start',
-    'stop',
-]
-
-parser = argparse.ArgumentParser()
-parser.add_argument('name', metavar='NAME',
-    choices=_valid_processes.keys(), nargs=1
-)
-parser.add_argument('action', metavar='ACTION',
-    choices=_valid_actions, nargs=1
-)
-args = parser.parse_args()
-
 # TODO move
 _log_file = '/tmp/psp.log'
 _current_process_file = '/tmp/current_process'
 
-manager = process_manager.ProcessManager(
+manager = ProcessManager(
     _log_file,
     _current_process_file
 )
 
+parser = PspParser()
+args = parser.parse_args()
+
+# TODO move these conditionals into a launcher class
 action = args.action[0]
 name = args.name[0]
-
 if action == 'start':
     manager.start_process(name)
 elif action == 'stop':
