@@ -20,9 +20,9 @@ manager = ProcessManager(
 )
 
 # TODO move into launcher
-action = args.action[0]
-name = args.name[0]
-if action == 'start':
-    manager.start_process(name)
-elif action == 'stop':
+action_name = parser.get_action_name(args.action[0])
+process_name = parser.get_process_name(args.name[0])
+if action_name == 'begin':
+    manager.start_process(process_name)
+elif action_name == 'end':
     manager.stop_process()
