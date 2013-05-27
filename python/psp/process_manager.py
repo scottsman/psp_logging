@@ -75,7 +75,7 @@ class ProcessManager(object):
         _log.debug('Stoping current process %s', self._current_process.name)
         self._current_process.stop_process()
         self._export_process()
-        self._current_process = None
+        self._current_process = Process(None)
         self._set_current_process_to_file()
         _log.info("Stopped current process")
 
@@ -100,12 +100,12 @@ class ProcessManager(object):
         _log.info('Getting current process.')
         if not os.path.exists(self._current_process_file):
             _log.info('No current process exists.')
-            return None
+            return Process(None)
         _log.debug("Getting current process from %s",
             self._current_process_file
         )
         f = open(self._current_process_file, 'r')
-        current_process = f.readline() or 'None'
+        current_process = f.readline() or Process(None)
         _log.info('Done getting current process.')
         return eval(current_process)
 

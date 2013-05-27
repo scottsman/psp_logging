@@ -66,3 +66,11 @@ class Process(object):
         return ("Process('%s', start_time=%s, stop_time=%s)" %
             (self._name, self._start_time, self._stop_time)
         )
+
+    def __nonzero__(self):
+        """ Value to return when for bool operation on a Process.
+        Returns:
+            (bool) True if the instance represents a valid process.
+            False otherwise.
+        """
+        return True if self._name is not None else False
