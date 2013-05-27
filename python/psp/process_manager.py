@@ -36,7 +36,7 @@ class ProcessManager(object):
             "Current process is %s" % (
                 self._log_file,
                 self._current_process_file,
-                self._current_process
+                self._current_process.name
             )
         )
 

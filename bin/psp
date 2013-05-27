@@ -1,19 +1,16 @@
 #! /usr/bin/env python
 
-import logging
-
+import psp.logging
 from psp.process_manager import ProcessManager
 from psp.argument_parser import PspParser
 
-# TODO connect logging level to the arguments.
-# Set up logging
-_log = logging.getLogger()
-_handler = logging.StreamHandler()
-_log.setLevel(logging.DEBUG)
-_handler.setLevel(logging.DEBUG)
-_log.addHandler(_handler)
+parser = PspParser()
+args = parser.parse_args()
 
-# TODO move
+# TODO move into launcher
+psp.logging.setup(verbosity_level=args.verbosity)
+
+# TODO move into launcher
 _log_file = '/tmp/psp.log'
 _current_process_file = '/tmp/current_process'
 
@@ -22,10 +19,7 @@ manager = ProcessManager(
     _current_process_file
 )
 
-parser = PspParser()
-args = parser.parse_args()
-
-# TODO move these conditionals into a launcher class
+# TODO move into launcher
 action = args.action[0]
 name = args.name[0]
 if action == 'start':
