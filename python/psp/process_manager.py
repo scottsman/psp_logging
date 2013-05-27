@@ -66,7 +66,7 @@ class ProcessManager(object):
 
     def stop_process(self):
         """ Stop the current process.
-        Export the Process to the log.
+        Will export the Process to the log.
         """
         _log.info("Stopping current process")
         if not self._current_process:
@@ -105,9 +105,18 @@ class ProcessManager(object):
             self._current_process_file
         )
         f = open(self._current_process_file, 'r')
-        current_process = f.readline() or Process(None)
+        line = f.readline() or Process(None)
+        try:
+            current_process = eval(line)
+            _log.debug("Got current process %s" % current_process.name)
+        except NameError:
+            current_process = Process(None)
+            _log.debug(
+                "Unable to get current process."
+                " Getting None process."
+            )
         _log.info('Done getting current process.')
-        return eval(current_process)
+        return current_process
 
     def _set_current_process_to_file(self):
         """ Set a new process as the current process.
@@ -116,11 +125,8 @@ class ProcessManager(object):
             At this point _current_process can be None.
         """
         _log.info('Writing current process.')
-        name = None
-        repr = 'None'
-        if self._current_process:
-            name = self._current_process.name
-            repr = self._current_process.__repr__()
+        name = self._current_process.name
+        repr = self._current_process.__repr__()
         _log.debug("Writing current process %s to %s",
             name,
             self._current_process_file,
