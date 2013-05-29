@@ -8,6 +8,7 @@ class Process(object):
         stop_time
         name
     """
+
     def __init__(self, name, start_time=None, stop_time=None):
         """
         Args:
@@ -16,6 +17,10 @@ class Process(object):
             start_time (float): Manual entry for a start time, in epoch time.
             stop_time (float): Manual entry for an stop time, in epoch time.
         """
+        # Backwards compatibility from python2 to python3
+        # TODO. Find out if this is the appropriate place to put it?
+        self.__nonzero__ = self.__bool__
+
         self._name = name
         self._start_time = start_time or time.time()
         self._stop_time = stop_time or None
@@ -63,11 +68,17 @@ class Process(object):
         Returns:
             (str) representation of the class.
         """
-        return ("Process('%s', start_time=%s, stop_time=%s)" %
-            (self._name, self._start_time, self._stop_time)
+        # Check required to be able to pass None or quote wraped string
+        # into the repr.
+        name = self._name
+        if name:
+            name = name.__repr__()
+
+        return ("Process(%s, start_time=%s, stop_time=%s)" %
+            (name, self._start_time, self._stop_time)
         )
 
-    def __nonzero__(self):
+    def __bool__(self):
         """ Value to return when for bool operation on a Process.
         Returns:
             (bool) True if the instance represents a valid process.
